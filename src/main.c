@@ -28,6 +28,7 @@ void DrawSprite(Sprite* sprite) {
 int main()
 {
     InitWindow(640, 480, "ClickToSave");
+    SetTraceLogLevel(LOG_NONE);
     SetTargetFPS(60);
     HideCursor();
 
@@ -72,11 +73,11 @@ int main()
                 sprintf(text_buffer, "Score: %d", score);
             }
         
-            if (player.position.y < MAX_HEIGHT) {
-                game_over = true;
-            } else if (player.position.y > MIN_HEIGHT) {
+            if (player.position.y < MAX_HEIGHT || player.position.y > MIN_HEIGHT) {
                 game_over = true;
             }
+            
+            apply_gravity(&player);
         }
         
         BeginDrawing();
@@ -94,14 +95,17 @@ int main()
                 DrawText((const char*)text_buffer, 0, 0, FONT_SIZE, BLACK);
             } else if (game_over) {
                 DrawText("Game Over!", 0, 0, FONT_SIZE, BLACK);
+                DrawText((const char*)text_buffer, 0, FONT_SIZE+1, FONT_SIZE, BLACK);
             } else {    
                 DrawText("Score: 0", 0, 0, FONT_SIZE, BLACK);
             }
             
-            apply_gravity(&player);
-            
         EndDrawing();
     }
+    
+    UnloadTexture(bg.texture);
+    UnloadTexture(player.texture);
+    UnloadTexture(monster.texture);
 
     CloseWindow();
     return 0;
