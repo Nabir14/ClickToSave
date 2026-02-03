@@ -84,10 +84,10 @@ int main()
         float delta = GetFrameTime();
         
         if (!game_over) {
-            player.sprite.rotation += 1.0f;
+            player.sprite.rotation += PLAYER_SPIN_SPEED;
             
             if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-                player.velocity.y -= 64.0f;
+                player.velocity.y -= PLAYER_JUMP_VELOCITY;
                 score++;
                 sprintf(text_buffer, "Score: %d", score);
             } else {
